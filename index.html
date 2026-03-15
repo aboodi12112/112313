@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع زوزو بس</title>
+    <style>
+        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: #000; font-family: 'Arial', sans-serif; overflow: hidden; position: relative; color: #fff; }
+        .container { background: rgba(20, 20, 20, 0.9); padding: 40px; border-radius: 20px; box-shadow: 0 0 20px rgba(255, 75, 43, 0.3); text-align: center; max-width: 400px; width: 90%; z-index: 10; border: 1px solid #ff4b2b; }
+        h1 { color: #ff4b2b; margin-bottom: 20px; font-size: 24px; min-height: 1.5em; }
+        .btn-group { display: flex; justify-content: center; gap: 20px; margin-top: 20px; position: relative; opacity: 0; transition: opacity 0.5s ease-in; pointer-events: none; }
+        .show-btns { opacity: 1; pointer-events: auto; }
+        button { padding: 12px 35px; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; font-weight: bold; }
+        .btn-yes { background-color: #28a745; color: white; }
+        .btn-no { background-color: #dc3545; color: white; }
+        .btn-final { background-color: #ff4b2b; color: white; }
+        .scary-bg { background: black !important; background-size: contain !important; background-repeat: no-repeat !important; background-position: center !important; }
+        #countdown { font-size: 150px; color: #ff0000; font-weight: bold; display: none; z-index: 100; position: absolute; }
+        .hidden { display: none; }
+        .heart { position: absolute; font-size: 30px; animation: fly 2s ease-out forwards; pointer-events: none; z-index: 20; }
+        @keyframes fly { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-600px) scale(2); opacity: 0; } }
+    </style>
+</head>
+<body onload="typeEffect('title1', 'انتي زوزو؟', 'btns1')">
+
+    <audio id="scary-sound" src="scary.mp3"></audio>
+    <audio id="funny-sound" src="funny.m4a"></audio>
+    <audio id="final-sound" src="final.m4a"></audio>
+
+    <div id="step1" class="container">
+        <h1 id="title1"></h1>
+        <div id="btns1" class="btn-group">
+            <button class="btn-yes" onclick="nextStep(2, 'title2', 'تحبيني؟', 'btns2')">اي</button>
+            <button class="btn-no" onclick="scaryMode()">لا</button>
+        </div>
+    </div>
+
+    <div id="step2" class="container hidden">
+        <h1 id="title2"></h1>
+        <div id="btns2" class="btn-group">
+            <button class="btn-yes" onclick="nextStep(3, 'title3', '👉🏻👈🏻يعني تحبيني 🫦', 'btns3')">اويه</button>
+            <button class="btn-no" onclick="playFunny()">لا</button>
+        </div>
+    </div>
+
+    <div id="step3" class="container hidden">
+        <h1 id="title3"></h1>
+        <div id="btns3" class="btn-group">
+            <button class="btn-yes" onclick="nextStep(4, 'title4', 'ب تقولين احبك ولا كيف 😡', 'btns4')">اي</button>
+        </div>
+    </div>
+
+    <div id="step4" class="container hidden">
+        <h1 id="title4"></h1>
+        <div id="btns4" class="btn-group">
+            <button class="btn-final" onclick="showFinalLove(event)">أحبك</button>
+        </div>
+        <p id="final-msg" style="font-size: 18px; color: #ddd; margin-top: 20px; min-height: 1.2em;"></p>
+    </div>
+
+    <div id="countdown">5</div>
+
+    <script>
+        const scaryImageUrl = "https://media.discordapp.net/attachments/1477459939470606337/1482772300733349938/53c1a7388bad38adbc909f36cfe211ae.png?ex=69b82ad1&is=69b6d951&hm=31e5525a9bf351923040179f3250b8d94833bcb9c6b54203fd16cc471d89690f&=&format=webp&quality=lossless";
+
+        function typeEffect(elementId, text, btnGroupId, callback) {
+            let i = 0;
+            const element = document.getElementById(elementId);
+            const btnGroup = btnGroupId ? document.getElementById(btnGroupId) : null;
+            element.innerHTML = "";
+            if(btnGroup) btnGroup.classList.remove('show-btns');
+
+            function typing() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typing, 100);
+                } else {
+                    if(btnGroup) btnGroup.classList.add('show-btns');
+                    if(callback) callback();
+                }
+            }
+            typing();
+        }
+
+        function nextStep(step, nextTitleId, nextText, nextBtnId) {
+            document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
+            document.getElementById('step' + step).classList.remove('hidden');
+            typeEffect(nextTitleId, nextText, nextBtnId);
+        }
+
+        function playFunny() {
+            const funny = document.getElementById('funny-sound');
+            funny.currentTime = 0;
+            funny.play();
+        }
+
+        function showFinalLove(e) {
+            // تشغيل الصوت النهائي m4a
+            const finalSound = document.getElementById('final-sound');
+            finalSound.play();
+
+            // إظهار الكلام حبة حبة
+            const msgText = "أدب اقصد حتى انا احبج و اموت عليج يا بعد قلبي";
+            typeEffect('final-msg', msgText);
+
+            // إطلاق القلوب
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '❤️';
+                    heart.classList.add('heart');
+                    heart.style.left = (e.clientX + (Math.random() * 200 - 100)) + 'px';
+                    heart.style.top = e.clientY + 'px';
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 2000);
+                }, i * 100);
+            }
+        }
+
+        function scaryMode() {
+            document.querySelectorAll('.container').forEach(el => el.style.display = 'none');
+            document.body.classList.add('scary-bg');
+            document.body.style.backgroundImage = `url('${scaryImageUrl}')`;
+            document.getElementById('scary-sound').play();
+            const counterDiv = document.getElementById('countdown');
+            counterDiv.style.display = 'block';
+            let count = 5;
+            setInterval(() => {
+                count--;
+                if (counterDiv) counterDiv.innerText = count > 0 ? count : "0";
+                if (count <= 0) window.location.href = "https://www.google.com";
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
