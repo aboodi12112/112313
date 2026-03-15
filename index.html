@@ -39,7 +39,7 @@
 </head>
 <body>
 
-    <audio id="scary-sound" src="رابط_الصوت_هنا"></audio>
+    <audio id="scary-sound" src="scary.m4a"></audio>
 
     <div id="step1" class="container">
         <h1>انتي زوزو؟</h1>
@@ -77,8 +77,8 @@
     <div id="countdown">5</div>
 
     <script>
-        // 2.https://cdn.discordapp.com/attachments/1477459939470606337/1482772300733349938/53c1a7388bad38adbc909f36cfe211ae.png?ex=69b82ad1&is=69b6d951&hm=31e5525a9bf351923040179f3250b8d94833bcb9c6b54203fd16cc471d89690f&ا
-        const scaryImageUrl = "https://cdn.discordapp.com/attachments/1477459939470606337/1482772831036244110/1e960e44af3bea9a.m4a?ex=69b82b4f&is=69b6d9cf&hm=18899d4b4fb36522772e9428127b55681e747305dc2c2539501a301ef2ea14c3&";
+        // رابط الصورة المرعبة اللي اخترتها
+        const scaryImageUrl = "https://media.discordapp.net/attachments/1477459939470606337/1482772300733349938/53c1a7388bad38adbc909f36cfe211ae.png?ex=69b82ad1&is=69b6d951&hm=31e5525a9bf351923040179f3250b8d94833bcb9c6b54203fd16cc471d89690f&=&format=webp&quality=lossless";
 
         function nextStep(step) {
             document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
@@ -112,10 +112,7 @@
         }
 
         function createHearts(e) {
-            // إظهار الكلام بعد الضغط
             document.getElementById('final-msg').classList.remove('hidden');
-            
-            // صنع القلوب
             for (let i = 0; i < 20; i++) {
                 setTimeout(() => {
                     const heart = document.createElement('div');
